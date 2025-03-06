@@ -6,12 +6,12 @@ require_once ROOTPATH . '/vendor/autoload.php';
 
 use CodeIgniter\Model;
 
-class Tokenpush extends Model
+class Supplier extends Model
 {
-    protected $table            = 'TOKEN';
-    protected $primaryKey       = 'idtoken';
-    protected $useAutoIncrement = true;
-    protected $allowedFields    = ['idtoken', 'token', 'iduserlogin', 'statuslogin', 'updatetime'];
+    protected $table            = 'master_supplier';
+    protected $primaryKey       = 'sNo_Acc';
+    protected $useAutoIncrement = false;
+    protected $allowedFields    = ['sNo_Acc', 'Nama', 'Alamat', 'Kota', 'Phone', 'Email', 'TglUbah', 'Username', 'Person'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;
