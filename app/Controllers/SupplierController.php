@@ -8,7 +8,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Supplier;
 
-header('Access-Control-Allow-Origin: *');
 
 class SupplierController extends ResourceController
 {
@@ -34,7 +33,9 @@ class SupplierController extends ResourceController
             'countsupplier' => $this->Supplier->like('Nama', $wherelike)->countAllResults()
         ];
 
-        return $this->respond($data, 200);
+        return $this->respond($data, 200)->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET');
     }
 
     public function getSupplier()
@@ -47,7 +48,9 @@ class SupplierController extends ResourceController
             'datasupplier' => $this->Supplier->like('Nama', $wherelike)->orLike('Person', $wherelike)->limit(intval($page), intval($pageprev))->findAll()
         ];
 
-        return $this->respond($data, 200);
+        return $this->respond($data, 200)->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET');
     }
 
 
@@ -58,7 +61,9 @@ class SupplierController extends ResourceController
             'maxnosupp' => $this->Supplier->selectMax('sNo_Acc', 'noacc')->findAll()
         ];
 
-        return $this->respond($data, 200);
+        return $this->respond($data, 200)->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET');
     }
 
     public function create()
@@ -79,6 +84,8 @@ class SupplierController extends ResourceController
 
         $response = ['message' => 'success'];
 
-        return $this->respondCreated($response);
+        return $this->respondCreated($response)->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'POST');
     }
 }
