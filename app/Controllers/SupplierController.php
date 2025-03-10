@@ -13,6 +13,9 @@ class SupplierController extends ResourceController
 {
     public function __construct()
     {
+        header("Access-Control-Allow-Origin: *");
+        //header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
+        header("Access-Control-Allow-Headers: X-Request-With");
         $this->Supplier = new Supplier();
     }
 
@@ -25,6 +28,7 @@ class SupplierController extends ResourceController
      */
 
 
+    //get data like field Nama
     public function index()
     {
         $wherelike = $this->request->getVar('like');
@@ -33,11 +37,23 @@ class SupplierController extends ResourceController
             'countsupplier' => $this->Supplier->like('Nama', $wherelike)->countAllResults()
         ];
 
-        return $this->respond($data, 200)->setHeader('Access-Control-Allow-Origin', '*')
-            ->setHeader('Access-Control-Allow-Headers', '*')
-            ->setHeader('Access-Control-Allow-Methods', 'GET');
+        return $this->respond($data, 200);
     }
 
+    //get data by field No ACC
+    public function getsupplierbyid()
+    {
+        $wherelike = $this->request->getVar('id');
+        $data = [
+            'message' => 'success',
+            'datasupplier' => $this->Supplier->where('sNo_Acc', $wherelike)->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
+
+    //get data with filter field Nama, Person. Show limit
     public function getSupplier()
     {
         $wherelike = $this->request->getVar('like');
@@ -48,12 +64,10 @@ class SupplierController extends ResourceController
             'datasupplier' => $this->Supplier->like('Nama', $wherelike)->orLike('Person', $wherelike)->limit(intval($page), intval($pageprev))->findAll()
         ];
 
-        return $this->respond($data, 200)->setHeader('Access-Control-Allow-Origin', '*')
-            ->setHeader('Access-Control-Allow-Headers', '*')
-            ->setHeader('Access-Control-Allow-Methods', 'GET');
+        return $this->respond($data, 200);
     }
 
-
+    //get max noAcc
     public function maxnoacc()
     {
         $data = [
@@ -61,11 +75,10 @@ class SupplierController extends ResourceController
             'maxnosupp' => $this->Supplier->selectMax('sNo_Acc', 'noacc')->findAll()
         ];
 
-        return $this->respond($data, 200)->setHeader('Access-Control-Allow-Origin', '*')
-            ->setHeader('Access-Control-Allow-Headers', '*')
-            ->setHeader('Access-Control-Allow-Methods', 'GET');
+        return $this->respond($data, 200);
     }
 
+    //Insert
     public function create()
     {
 
@@ -84,8 +97,36 @@ class SupplierController extends ResourceController
 
         $response = ['message' => 'success'];
 
-        return $this->respondCreated($response)->setHeader('Access-Control-Allow-Origin', '*')
-            ->setHeader('Access-Control-Allow-Headers', '*')
-            ->setHeader('Access-Control-Allow-Methods', 'POST');
+        return $this->respondCreated($response);
+    }
+
+    //Update
+    public function update($id = null)
+    {
+
+        $this->Supplier->update($id, [
+            'Nama'       => esc($this->request->getVar('Nama')),
+            'Alamat'     => esc($this->request->getVar('Alamat')),
+            'Kota'       => esc($this->request->getVar('Kota')),
+            'Phone'      => esc($this->request->getVar('Phone')),
+            'Email'      => esc($this->request->getVar('Email')),
+            'TglUbah'    => esc($this->request->getVar('TglUbah')),
+            'Username'   => esc($this->request->getVar('Username')),
+            'Person'     => esc($this->request->getVar('Person')),
+        ]);
+
+        $response = ['message' => 'success'];
+
+        return $this->respond($response, 200);
+    }
+
+    //delete
+    public function deletedata()
+    {
+        $id = $this->request->getVar('id');
+        $this->Supplier->where('sNo_Acc', $id)->delete();
+        $response = ['message' => 'success'];
+
+        return $this->respondDeleted($response);
     }
 }
