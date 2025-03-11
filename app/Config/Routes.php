@@ -39,3 +39,19 @@ $routes->get('satuan/detail', 'SatuanController::getsatuanbyid');
 $routes->post('satuan/save', 'SatuanController::create');
 $routes->post('satuan/update/(:any)', 'SatuanController::update/$1');
 $routes->get('satuan/delete', 'SatuanController::deletedata');
+
+//gudang
+$routes->get('gudang', 'GudangController::getGudang');
+$routes->get('gudang/datacount', 'GudangController::index');
+$routes->get('gudang/detail', 'GudangController::getgudangbyid');
+$routes->post('gudang/save', 'GudangController::create');
+$routes->post('gudang/update/(:any)', 'GudangController::update/$1');
+$routes->get('gudang/delete', 'GudangController::deletedata');
+
+//merk
+$routes->get('merk', 'MerkController::getMerk');
+$routes->get('merk/datacount', 'MerkController::index');
+$routes->get('merk/detail', 'MerkController::getmerkbyid');
+$routes->post('merk/save', 'MerkController::create');
+$routes->post('merk/update/(:any)', 'MerkController::update/$1');
+$routes->get('merk/delete', 'MerkController::deletedata');
