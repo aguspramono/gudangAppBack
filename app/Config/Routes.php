@@ -55,3 +55,11 @@ $routes->get('merk/detail', 'MerkController::getmerkbyid');
 $routes->post('merk/save', 'MerkController::create');
 $routes->post('merk/update/(:any)', 'MerkController::update/$1');
 $routes->get('merk/delete', 'MerkController::deletedata');
+
+//kategori
+$routes->get('kategori', 'KategoriController::getkategori');
+$routes->get('kategori/datacount', 'KategoriController::index');
+$routes->get('kategori/detail', 'KategoriController::getkategoribyid');
+$routes->post('kategori/save', 'KategoriController::create');
+$routes->post('kategori/update/(:any)', 'KategoriController::update/$1');
+$routes->get('kategori/delete', 'KategoriController::deletedata');
