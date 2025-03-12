@@ -95,17 +95,16 @@ class KategoriController extends ResourceController
     {
 
         $this->Kategori->update($id, [
-            'Kategori'  => esc($this->request->getVar('Kategori')),
-            't_NoAkunStock'  => esc($this->request->getVar('t_NoAkunStock')),
-            't_NoAkunKas'     => esc($this->request->getVar('t_NoAkunKas')),
-            't_NoAkunHutang'  => esc($this->request->getVar('t_NoAkunHutang')),
-            'k_NoAkunBiaya'  => esc($this->request->getVar('k_NoAkunBiaya')),
+            't_NoAkunStock'     => esc($this->request->getVar('t_NoAkunStock')),
+            't_NoAkunKas'       => esc($this->request->getVar('t_NoAkunKas')),
+            't_NoAkunHutang'    => esc($this->request->getVar('t_NoAkunHutang')),
+            'k_NoAkunBiaya'     => esc($this->request->getVar('k_NoAkunBiaya')),
             'k_NoAkunStock'     => esc($this->request->getVar('k_NoAkunStock')),
-            'a_NoAkunBiaya'  => esc($this->request->getVar('a_NoAkunBiaya')),
-            'a_NoAkunStock'  => esc($this->request->getVar('a_NoAkunStock')),
-            'Keterangan'     => esc($this->request->getVar('Keterangan')),
-            'TglUbah'     => esc($this->request->getVar('TglUbah')),
-            'Username'    => esc($this->request->getVar('Username')),
+            'a_NoAkunBiaya'     => esc($this->request->getVar('a_NoAkunBiaya')),
+            'a_NoAkunStock'     => esc($this->request->getVar('a_NoAkunStock')),
+            'Keterangan'        => esc($this->request->getVar('Keterangan')),
+            'TglUbah'           => esc($this->request->getVar('TglUbah')),
+            'Username'          => esc($this->request->getVar('Username')),
         ]);
 
         $response = ['message' => 'success'];
