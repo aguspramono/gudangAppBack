@@ -63,3 +63,12 @@ $routes->get('kategori/detail', 'KategoriController::getkategoribyid');
 $routes->post('kategori/save', 'KategoriController::create');
 $routes->post('kategori/update/(:any)', 'KategoriController::update/$1');
 $routes->get('kategori/delete', 'KategoriController::deletedata');
+
+//product
+$routes->get('product', 'ProductController::getProduct');
+$routes->get('product/datacount', 'ProductController::index');
+$routes->get('product/detail', 'ProductController::getProductbyid');
+$routes->post('product/save', 'ProductController::create');
+$routes->post('product/update/(:any)', 'ProductController::update/$1');
+$routes->get('product/delete', 'ProductController::deletedata');
+$routes->get('stockdistribusi', 'ProductController::stokdistribusi');
