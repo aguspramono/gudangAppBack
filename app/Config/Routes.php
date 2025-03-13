@@ -72,3 +72,19 @@ $routes->post('product/save', 'ProductController::create');
 $routes->post('product/update/(:any)', 'ProductController::update/$1');
 $routes->get('product/delete', 'ProductController::deletedata');
 $routes->get('stockdistribusi', 'ProductController::stokdistribusi');
+
+//productdetail
+$routes->get('productdetail', 'ProductdetailController::getProductDetail');
+$routes->get('productdetail/datacount', 'ProductdetailController::index');
+$routes->get('productdetail/detail', 'ProductdetailController::getProductDetailbyid');
+$routes->post('productdetail/save', 'ProductdetailController::create');
+$routes->post('productdetail/update/(:any)', 'ProductdetailController::update/$1');
+$routes->get('productdetail/delete', 'ProductdetailController::deletedata');
+
+//StockAdj
+$routes->get('stockadj', 'StockAdjController::getStockAdj');
+$routes->get('stockadj/datacount', 'StockAdjController::index');
+$routes->get('stockadj/detail', 'StockAdjController::getStockAdjbyid');
+$routes->post('stockadj/save', 'StockAdjController::create');
+$routes->post('stockadj/update/(:any)', 'StockAdjController::update/$1');
+$routes->get('stockadj/delete', 'StockAdjController::deletedata');
