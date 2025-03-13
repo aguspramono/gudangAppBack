@@ -88,3 +88,28 @@ $routes->get('stockadj/detail', 'StockAdjController::getStockAdjbyid');
 $routes->post('stockadj/save', 'StockAdjController::create');
 $routes->post('stockadj/update/(:any)', 'StockAdjController::update/$1');
 $routes->get('stockadj/delete', 'StockAdjController::deletedata');
+
+//StockAdjdetail
+$routes->get('stockadjdetail', 'StockAdjDetailController::getStockAdjDetail');
+$routes->get('stockadjdetail/datacount', 'StockAdjdetailController::index');
+$routes->get('stockadjdetail/detail', 'StockAdjdetailController::getStockAdjDetailbyid');
+$routes->post('stockadjdetail/save', 'StockAdjdetailController::create');
+$routes->post('stockadjdetail/update/(:any)', 'StockAdjdetailController::update/$1');
+$routes->get('stockadjdetail/delete', 'StockAdjdetailController::deletedata');
+
+
+//stockClosing
+$routes->get('stockclosing', 'StockClosingController::getStockClosing');
+$routes->get('stockclosing/datacount', 'StockClosingController::index');
+$routes->get('stockclosing/detail', 'StockClosingController::getStockClosingbyid');
+$routes->post('stockclosing/save', 'StockClosingController::create');
+$routes->post('stockclosing/update/(:any)', 'StockClosingController::update/$1');
+$routes->get('stockclosing/delete', 'StockClosingController::deletedata');
+
+//stockClosingDetail
+$routes->get('stockclosingdetail', 'StockClosingDetailController::getStockClosingDetail');
+$routes->get('stockclosingdetail/datacount', 'StockClosingDetailController::index');
+$routes->get('stockclosingdetail/detail', 'StockClosingDetailController::getStockClosingDetailbyid');
+$routes->post('stockclosingdetail/save', 'StockClosingDetailController::create');
+$routes->post('stockclosingdetail/update/(:any)', 'StockClosingDetailController::update/$1');
+$routes->get('stockclosingdetail/delete', 'StockClosingDetailController::deletedata');
