@@ -11,7 +11,7 @@ class StockAdj extends Model
     protected $table            = 'stock_adj';
     protected $primaryKey       = 'NoBukti';
     protected $useAutoIncrement = false;
-    protected $allowedFields    = ['NoBukti', 'Tgl', 'Kondisi', 'Keterangan', 'TglUbah', 'Username'];
+    protected $allowedFields    = ['Tgl', 'NoBukti', 'Kondisi', 'Keterangan', 'TglUbah', 'Username'];
 
     // protected bool $allowEmptyInserts = false;
     // protected bool $updateOnlyChanged = true;

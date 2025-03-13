@@ -36,8 +36,7 @@ class StockAdjController extends ResourceController
             'message' => 'success',
             'countStockAdj' => $this->StockAdj->like('NoBukti', $wherelike)->countAllResults()
         ];
-
-        return $this->respond($data, 200);
+        return $this->respond($data, 200);;
     }
 
     //get data by field No ACC
@@ -90,14 +89,14 @@ class StockAdjController extends ResourceController
     //Update
     public function update($id = null)
     {
-
-        $this->StockAdj->update($id), [
+        $data = [
             'Tgl'               => esc($this->request->getVar('Tgl')),
             'Kondisi'           => esc($this->request->getVar('Kondisi')),
             'Keterangan'        => esc($this->request->getVar('Keterangan')),
             'TglUbah'           => esc($this->request->getVar('TglUbah')),
             'Username'          => esc($this->request->getVar('Username')),
-        ]);
+        ];
+        $result = $this->StockAdj->where('md5(NoBukti)', $id)->set($data)->update();
 
         $response = ['message' => 'success'];
 
@@ -108,7 +107,7 @@ class StockAdjController extends ResourceController
     public function deletedata()
     {
         $id = $this->request->getVar('id');
-        $this->StockAdj->where('NoBukti', $id)->delete();
+        $this->StockAdj->where('md5(NoBukti)', $id)->delete();
         $response = ['message' => 'success'];
         return $this->respondDeleted($response);
     }
