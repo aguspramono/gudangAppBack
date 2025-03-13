@@ -23,8 +23,13 @@ class Product extends Model
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
 
-    public function stokdistribusi()
+    public function stokdistribusi($id)
     {
-        return $this->db->query("Select Distinct master_gudang.Gudang,master_productdetail.Temp As sAwal,master_productdetail.Temp As Beli, master_productdetail.Temp As 'Out',master_productdetail.Temp As MutIn, master_productdetail.Temp As Adj, master_productdetail.Temp As Sisa From master_gudang Left Join master_productdetail On master_gudang.Gudang=master_productdetail.Gudang");
+        if (empty($id)) {
+            $whereID = "";
+        } else {
+            $whereID = "where master_gudang.Gudang='" . $id . "' ";
+        }
+        return $this->db->query("Select Distinct master_gudang.Gudang,master_productdetail.Temp As sAwal,master_productdetail.Temp As Beli, master_productdetail.Temp As 'Out',master_productdetail.Temp As MutIn, master_productdetail.Temp As Adj, master_productdetail.Temp As Sisa From master_gudang Left Join master_productdetail On master_gudang.Gudang=master_productdetail.Gudang " . $whereID . "");
     }
 }

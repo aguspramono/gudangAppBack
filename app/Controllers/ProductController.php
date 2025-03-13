@@ -138,9 +138,10 @@ class ProductController extends ResourceController
 
     public function stokdistribusi()
     {
+        $id = $this->request->getVar('gudang');
         $data = [
             'message' => 'success',
-            'datastokdistribusi' => $this->Product->stokdistribusi()->getResult()
+            'datastokdistribusi' => $this->Product->stokdistribusi($id)->getResult()
         ];
 
         return $this->respond($data, 200);
