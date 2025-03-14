@@ -39,6 +39,17 @@ class KategoriController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //get all data kategori
+    public function allkategori()
+    {
+        $data = [
+            'message' => 'success',
+            'datakategori' => $this->Kategori->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
     //get data by field KodeDepartemen
     public function getkategoribyid()
     {

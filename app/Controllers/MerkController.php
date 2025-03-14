@@ -39,6 +39,17 @@ class MerkController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //get all data
+    public function getalldatamerk()
+    {
+        $data = [
+            'message' => 'success',
+            'datamerk' => $this->Merk->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
     //get data by field gudang
     public function getmerkbyid()
     {

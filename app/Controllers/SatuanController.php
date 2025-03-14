@@ -39,6 +39,17 @@ class SatuanController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //get all data
+    public function allsatuan()
+    {
+        $data = [
+            'message' => 'success',
+            'datasatuan' => $this->Satuan->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
     //get data by field Satuan
     public function getsatuanbyid()
     {

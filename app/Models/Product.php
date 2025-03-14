@@ -22,7 +22,6 @@ class Product extends Model
     //protected $dateFormat    = 'datetime';
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
-
     public function stokdistribusi($id)
     {
         if (empty($id)) {

@@ -32,9 +32,22 @@ class ProductController extends ResourceController
     public function index()
     {
         $wherelike = $this->request->getVar('like');
+        $optionlike = $this->request->getVar('option');
+        $likeket = "Nama";
+        if (empty($optionlike)) {
+            $likeket = "Nama";
+        } elseif ($optionlike == "Kode Barang") {
+            $likeket = "Kode";
+        } elseif ($optionlike == "Merek") {
+            $likeket = "Merek";
+        } elseif ($optionlike == "Kategori") {
+            $likeket = "Kategori";
+        } elseif ($optionlike == "Satuan") {
+            $likeket = "Satuan";
+        }
         $data = [
             'message' => 'success',
-            'countproduct' => $this->Product->like('Nama', $wherelike)->countAllResults()
+            'countproduct' => $this->Product->like($likeket, $wherelike)->countAllResults()
         ];
 
         return $this->respond($data, 200);
@@ -59,9 +72,24 @@ class ProductController extends ResourceController
         $wherelike = $this->request->getVar('like');
         $pageprev = $this->request->getVar('pageprev');
         $page = $this->request->getVar('page');
+
+        $optionlike = $this->request->getVar('option');
+        $likeket = "Nama";
+        if (empty($optionlike)) {
+            $likeket = "Nama";
+        } elseif ($optionlike == "Kode Barang") {
+            $likeket = "Kode";
+        } elseif ($optionlike == "Merek") {
+            $likeket = "Merek";
+        } elseif ($optionlike == "Kategori") {
+            $likeket = "Kategori";
+        } elseif ($optionlike == "Satuan") {
+            $likeket = "Satuan";
+        }
+
         $data = [
             'message' => 'success',
-            'dataproduct' => $this->Product->like('Nama', $wherelike)->orLike('Merek', $wherelike)->limit(intval($page), intval($pageprev))->findAll()
+            'dataproduct' => $this->Product->like($likeket, $wherelike)->limit(intval($page), intval($pageprev))->orderBy('Nama', 'ASC')->findAll()
         ];
 
         return $this->respond($data, 200);

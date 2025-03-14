@@ -34,6 +34,7 @@ $routes->get('lokasi/delete', 'LokasiController::deletedata');
 
 //satuan
 $routes->get('satuan', 'SatuanController::getSatuan');
+$routes->get('satuan/all', 'SatuanController::allsatuan');
 $routes->get('satuan/datacount', 'SatuanController::index');
 $routes->get('satuan/detail', 'SatuanController::getsatuanbyid');
 $routes->post('satuan/save', 'SatuanController::create');
@@ -50,6 +51,7 @@ $routes->get('gudang/delete', 'GudangController::deletedata');
 
 //merk
 $routes->get('merk', 'MerkController::getMerk');
+$routes->get('merk/all', 'MerkController::getalldatamerk');
 $routes->get('merk/datacount', 'MerkController::index');
 $routes->get('merk/detail', 'MerkController::getmerkbyid');
 $routes->post('merk/save', 'MerkController::create');
@@ -58,6 +60,7 @@ $routes->get('merk/delete', 'MerkController::deletedata');
 
 //kategori
 $routes->get('kategori', 'KategoriController::getkategori');
+$routes->get('kategori/all', 'KategoriController::allkategori');
 $routes->get('kategori/datacount', 'KategoriController::index');
 $routes->get('kategori/detail', 'KategoriController::getkategoribyid');
 $routes->post('kategori/save', 'KategoriController::create');
