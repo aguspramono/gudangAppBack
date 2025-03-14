@@ -113,3 +113,19 @@ $routes->get('stockclosingdetail/detail', 'StockClosingDetailController::getStoc
 $routes->post('stockclosingdetail/save', 'StockClosingDetailController::create');
 $routes->post('stockclosingdetail/update/(:any)', 'StockClosingDetailController::update/$1');
 $routes->get('stockclosingdetail/delete', 'StockClosingDetailController::deletedata');
+
+//stockClosingPesanan
+$routes->get('stockclosingpesanan', 'StockClosingPesananController::getStockClosingPesanan');
+$routes->get('stockclosingpesanan/datacount', 'StockClosingPesananController::index');
+$routes->get('stockclosingpesanan/detail', 'StockClosingPesananController::getStockClosingPesananbyid');
+$routes->post('stockclosingpesanan/save', 'StockClosingPesananController::create');
+$routes->post('stockclosingpesanan/update/(:any)', 'StockClosingPesananController::update/$1');
+$routes->get('stockclosingpesanan/delete', 'StockClosingPesananController::deletedata');
+
+//stockClosingPesananDetail
+$routes->get('stockclosingpesanandetail', 'StockClosingPesananDetailController::getStockClosingPesananDetail');
+$routes->get('stockclosingpesanandetail/datacount', 'StockClosingPesananDetailController::index');
+$routes->get('stockclosingpesanandetail/detail', 'StockClosingPesananDetailController::getStockClosingPesananDetailbyid');
+$routes->post('stockclosingpesanandetail/save', 'StockClosingPesananDetailController::create');
+$routes->post('stockclosingpesanandetail/update/(:any)', 'StockClosingPesananDetailController::update/$1');
+$routes->get('stockclosingpesanandetail/delete', 'StockClosingPesananDetailController::deletedata');
