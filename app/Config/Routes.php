@@ -132,3 +132,19 @@ $routes->get('stockclosingpesanandetail/detail', 'StockClosingPesananDetailContr
 $routes->post('stockclosingpesanandetail/save', 'StockClosingPesananDetailController::create');
 $routes->post('stockclosingpesanandetail/update/(:any)', 'StockClosingPesananDetailController::update/$1');
 $routes->get('stockclosingpesanandetail/delete', 'StockClosingPesananDetailController::deletedata');
+
+//stockin
+$routes->get('stockin', 'StockInController::getStockIn');
+$routes->get('stockin/datacount', 'StockInController::index');
+$routes->get('stockin/detail', 'StockInController::getStockInbyid');
+$routes->post('stockin/save', 'StockInController::create');
+$routes->post('stockin/update/(:any)', 'StockInController::update/$1');
+$routes->get('stockin/delete', 'StockInController::deletedata');
+
+//stockindetail
+$routes->get('stockindetail', 'StockInDetailController::getStockInDetail');
+$routes->get('stockindetail/datacount', 'StockInDetailController::index');
+$routes->get('stockindetail/detail', 'StockInDetailController::getStockInDetailbyid');
+$routes->post('stockindetail/save', 'StockInDetailController::create');
+$routes->post('stockindetail/update/(:any)', 'StockInDetailController::update/$1');
+$routes->get('stockindetail/delete', 'StockInDetailController::deletedata');
