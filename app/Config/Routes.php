@@ -148,3 +148,39 @@ $routes->get('stockindetail/detail', 'StockInDetailController::getStockInDetailb
 $routes->post('stockindetail/save', 'StockInDetailController::create');
 $routes->post('stockindetail/update/(:any)', 'StockInDetailController::update/$1');
 $routes->get('stockindetail/delete', 'StockInDetailController::deletedata');
+
+//stockLunasHutang
+$routes->get('stocklunashutang', 'StockLunasHutangController::getStockLunasHutang');
+$routes->get('stocklunashutang/all', 'StockLunasHutangController::allStockLunasHutang');
+$routes->get('stocklunashutang/datacount', 'StockLunasHutangController::index');
+$routes->get('stocklunashutang/detail', 'StockLunasHutangController::getStockLunasHutangbyid');
+$routes->post('stocklunashutang/save', 'StockLunasHutangController::create');
+$routes->post('stocklunashutang/update/(:any)', 'StockLunasHutangController::update/$1');
+$routes->get('stocklunashutang/delete', 'StockLunasHutangController::deletedata');
+
+//stockLunasHutangDetail
+$routes->get('stocklunashutangdetail', 'StockLunasHutangDetailController::getStockLunasHutangDetail');
+$routes->get('stocklunashutangdetail/all', 'StockLunasHutangDetailController::allStockLunasHutangDetail');
+$routes->get('stocklunashutangdetail/datacount', 'StockLunasHutangDetailController::index');
+$routes->get('stocklunashutangdetail/detail', 'StockLunasHutangDetailController::getStockLunasHutangDetailbyid');
+$routes->post('stocklunashutangdetail/save', 'StockLunasHutangDetailController::create');
+$routes->post('stocklunashutangdetail/update/(:any)', 'StockLunasHutangDetailController::update/$1');
+$routes->get('stocklunashutangdetail/delete', 'StockLunasHutangDetailController::deletedata');
+
+//stockOut
+$routes->get('stockout', 'StockOutController::getStockOut');
+$routes->get('stockout/all', 'StockOutController::allStockOut');
+$routes->get('stockout/datacount', 'StockOutController::index');
+$routes->get('stockout/detail', 'StockOutController::getStockOutbyid');
+$routes->post('stockout/save', 'StockOutController::create');
+$routes->post('stockout/update/(:any)', 'StockOutController::update/$1');
+$routes->get('stockout/delete', 'StockOutController::deletedata');
+
+//stockOut
+$routes->get('stockoutdetail', 'StockOutDetailController::getStockOutDetail');
+$routes->get('stockoutdetail/all', 'StockOutDetailController::allStockOutDetail');
+$routes->get('stockoutdetail/datacount', 'StockOutDetailController::index');
+$routes->get('stockoutdetail/detail', 'StockOutDetailController::getStockOutDetailbyid');
+$routes->post('stockoutdetail/save', 'StockOutDetailController::create');
+$routes->post('stockoutdetail/update/(:any)', 'StockOutDetailController::update/$1');
+$routes->get('stockoutdetail/delete', 'StockOutDetailController::deletedata');

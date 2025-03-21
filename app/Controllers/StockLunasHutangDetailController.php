@@ -6,17 +6,17 @@ require_once ROOTPATH . '/vendor/autoload.php';
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\StockInDetail;
+use App\Models\StockLunasHutangDetail;
 
 
-class StockInDetailController extends ResourceController
+class StockLunasHutangDetailController extends ResourceController
 {
     public function __construct()
     {
         header("Access-Control-Allow-Origin: *");
         //header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: X-Request-With");
-        $this->StockInDetail = new StockInDetail();
+        $this->StockLunasHutangDetail = new StockLunasHutangDetail();
     }
 
     //protected $modelName = 'App\Models\Tokenpush';
@@ -34,33 +34,44 @@ class StockInDetailController extends ResourceController
         $wherelike = $this->request->getVar('like');
         $data = [
             'message' => 'success',
-            'countStockInDetail' => $this->StockInDetail->like('NoBukti', $wherelike)->countAllResults()
+            'countStockLunasHutangDetail' => $this->StockLunasHutangDetail->like('NoBukti', $wherelike)->countAllResults()
         ];
         return $this->respond($data, 200);;
     }
 
+    //get all data StockLunasHutang
+    public function allStockLunasHutangDetail()
+    {
+        $data = [
+            'message' => 'success',
+            'dataStockLunasHutangDetail' => $this->StockLunasHutangDetail->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
     //get data by field No ACC
-    public function getStockInDetailbyid()
+    public function getStockLunasHutangDetailbyid()
     {
         $wherelike = $this->request->getVar('id');
         $data = [
             'message' => 'success',
-            'dataStockInDetail' => $this->StockInDetail->where('md5(NoBukti)', md5($wherelike))->findAll()
+            'dataStockLunasHutangDetail' => $this->StockLunasHutangDetail->where('md5(NoBukti)', md5($wherelike))->findAll()
         ];
 
         return $this->respond($data, 200);
     }
 
 
-    //get data with filter field Nama, Person. Show limit
-    public function getStockInDetail()
+    //get data with filter field NoBukti, drGudang. Show limit
+    public function getStockLunasHutangDetail()
     {
         $wherelike = $this->request->getVar('like');
         $pageprev = $this->request->getVar('pageprev');
         $page = $this->request->getVar('page');
         $data = [
             'message' => 'success',
-            'dataStockInDetail' => $this->StockInDetail->like('NoBukti', $wherelike)->orLike('InvNum', $wherelike)->orLike('Kode', $wherelike)->limit(intval($page), intval($pageprev))->findAll()
+            'dataStockLunasHutangDetail' => $this->StockLunasHutangDetail->like('NoBukti', $wherelike)->orLike('InvNum', $wherelike)->limit(intval($page), intval($pageprev))->findAll()
         ];
 
         return $this->respond($data, 200);
@@ -70,13 +81,10 @@ class StockInDetailController extends ResourceController
     //Insert
     public function create()
     {
-        $this->StockInDetail->insert([
+        $this->StockLunasHutangDetail->insert([
             'NoBukti'               => esc($this->request->getVar('NoBukti')),
             'InvNum'                => esc($this->request->getVar('InvNum')),
-            'Kode'                  => esc($this->request->getVar('Kode')),
-            'Qtty'                  => esc($this->request->getVar('Qtty')),
-            'Alokasi'               => esc($this->request->getVar('Alokasi')),
-
+            'Bayar'                 => esc($this->request->getVar('Bayar')),
         ]);
 
         $response = ['message' => 'success'];
@@ -88,12 +96,12 @@ class StockInDetailController extends ResourceController
     public function update($id = null)
     {
         $data = [
-            'InvNum'                => esc($this->request->getVar('InvNum')),
-            'Kode'                  => esc($this->request->getVar('Kode')),
-            'Qtty'                  => esc($this->request->getVar('Qtty')),
-            'Alokasi'               => esc($this->request->getVar('Alokasi')),
+
+            'InvNum'               => esc($this->request->getVar('InvNum')),
+            'Bayar'                => esc($this->request->getVar('Bayar')),
         ];
-        $result = $this->StockInDetail->where('md5(NoBukti)', $id)->set($data)->update();
+        $result = $this->StockLunasHutangDetail->where('md5(NoBukti)', $id)->set($data)->update();
+
 
         $response = ['message' => 'success'];
 
@@ -104,7 +112,7 @@ class StockInDetailController extends ResourceController
     public function deletedata()
     {
         $id = $this->request->getVar('id');
-        $this->StockInDetail->where('md5(NoBukti)', $id)->delete();
+        $this->StockLunasHutangDetail->where('md5(NoBukti)', $id)->delete();
         $response = ['message' => 'success'];
         return $this->respondDeleted($response);
     }

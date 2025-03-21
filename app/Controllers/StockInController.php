@@ -75,7 +75,7 @@ class StockInController extends ResourceController
             'Tgl'                   => esc($this->request->getVar('Tgl')),
             'drGudang'              => esc($this->request->getVar('drGudang')),
             'keGudang'              => esc($this->request->getVar('keGudang')),
-            'Keterangan'            => esc($this->request->getVar('keGudang')),
+            'Keterangan'            => esc($this->request->getVar('keterangan')),
             'TglUbah'               => esc($this->request->getVar('TglUbah')),
             'Username'              => esc($this->request->getVar('Username')),
         ]);
