@@ -108,11 +108,6 @@ class ProductController extends ResourceController
             'Satuan'        => esc($this->request->getVar('Satuan')),
             'Spec'          => esc($this->request->getVar('Spec')),
             'Lokasi'        => esc($this->request->getVar('Lokasi')),
-            'HargaEceran'   => esc($this->request->getVar('HargaEceran')),
-            'HargaKanvas'   => esc($this->request->getVar('HargaKanvas')),
-            'HargaAgen'     => esc($this->request->getVar('HargaAgen')),
-            'HargaBeli'     => esc($this->request->getVar('HargaBeli')),
-            'hBeliEnd'      => esc($this->request->getVar('hBeliEnd')),
             'Min'           => esc($this->request->getVar('Min')),
             'Max'           => esc($this->request->getVar('Max')),
             'TglUbah'       => esc($this->request->getVar('TglUbah')),
@@ -130,18 +125,12 @@ class ProductController extends ResourceController
     {
 
         $this->Product->update($id, [
-
             'Nama'          => esc($this->request->getVar('Nama')),
             'Merek'         => esc($this->request->getVar('Merek')),
             'Kategori'      => esc($this->request->getVar('Kategori')),
             'Satuan'        => esc($this->request->getVar('Satuan')),
             'Spec'          => esc($this->request->getVar('Spec')),
             'Lokasi'        => esc($this->request->getVar('Lokasi')),
-            'HargaEceran'   => esc($this->request->getVar('HargaEceran')),
-            'HargaKanvas'   => esc($this->request->getVar('HargaKanvas')),
-            'HargaAgen'     => esc($this->request->getVar('HargaAgen')),
-            'HargaBeli'     => esc($this->request->getVar('HargaBeli')),
-            'hBeliEnd'      => esc($this->request->getVar('hBeliEnd')),
             'Min'           => esc($this->request->getVar('Min')),
             'Max'           => esc($this->request->getVar('Max')),
             'TglUbah'       => esc($this->request->getVar('TglUbah')),

@@ -7,6 +7,7 @@ require_once ROOTPATH . '/vendor/autoload.php';
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\ProductDetail;
+use App\Models\Gudang;
 
 
 class ProductdetailController extends ResourceController
@@ -17,6 +18,7 @@ class ProductdetailController extends ResourceController
         //header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: X-Request-With");
         $this->ProductDetail = new ProductDetail();
+        $this->Gudang = new Gudang();
     }
 
     //protected $modelName = 'App\Models\Tokenpush';
@@ -67,19 +69,39 @@ class ProductdetailController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //Get detail produk by kode and gudang
+    public function getProductDetailByKodeAndGudang()
+    {
+        $kode = $this->request->getVar('kode');
+        $gudang = $this->request->getVar('gudang');
+        $data = [
+            'message' => 'success',
+            'dataproductdetail' => $this->ProductDetail->where('Kode', $kode)->where('Gudang', $gudang)->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
 
     //Insert
-    public function create()
+    public function createProductDetail($kode = null)
     {
+        $data = array();
+        $index = 0;
 
-        $this->ProductDetail->insert([
-            'Kode'           => esc($this->request->getVar('Kode')),
-            'Gudang'         => esc($this->request->getVar('Gudang')),
-            'sAwal'          => esc($this->request->getVar('sAwal')),
-            'Temp'           => esc($this->request->getVar('Temp')),
-            'hBeli'          => esc($this->request->getVar('hBeli')),
+        $datagudang = $this->Gudang->findAll();
 
-        ]);
+        foreach ($datagudang as $gudang) {
+            array_push($data, array(
+                'Kode'           => $kode,
+                'Gudang'         => $gudang['Gudang'],
+                'sAwal'          => 0,
+            ));
+
+            $index++;
+        }
+
+        $this->ProductDetail->insertBatch($data);
 
         $response = ['message' => 'success'];
 

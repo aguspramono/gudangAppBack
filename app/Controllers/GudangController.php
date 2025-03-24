@@ -39,6 +39,17 @@ class GudangController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //get all data
+    public function alldatagudang()
+    {
+        $data = [
+            'message' => 'success',
+            'datagudang' => $this->Gudang->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
     //get data by field gudang
     public function getgudangbyid()
     {

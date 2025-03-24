@@ -44,6 +44,7 @@ $routes->get('satuan/delete', 'SatuanController::deletedata');
 //gudang
 $routes->get('gudang', 'GudangController::getGudang');
 $routes->get('gudang/datacount', 'GudangController::index');
+$routes->get('gudang/alldata', 'GudangController::alldatagudang');
 $routes->get('gudang/detail', 'GudangController::getgudangbyid');
 $routes->post('gudang/save', 'GudangController::create');
 $routes->post('gudang/update/(:any)', 'GudangController::update/$1');
@@ -76,11 +77,25 @@ $routes->post('product/update/(:any)', 'ProductController::update/$1');
 $routes->get('product/delete', 'ProductController::deletedata');
 $routes->get('stockdistribusi', 'ProductController::stokdistribusi');
 
+
+//reopenpriode
+$routes->get('periode', 'ReopenPeriodeController::cekperiode');
+$routes->post('periode/update/(:any)', 'ReopenPeriodeController::updateperiode/$1');
+
+//Periode
+$routes->get('periode/data', 'PeriodeController::index');
+
+//Aktiday
+$routes->get('aktifday', 'AktifdayController::index');
+$routes->post('aktifday/update/(:any)', 'AktifdayController::update/$1');
+
+
+
 //productdetail
 $routes->get('productdetail', 'ProductdetailController::getProductDetail');
 $routes->get('productdetail/datacount', 'ProductdetailController::index');
 $routes->get('productdetail/detail', 'ProductdetailController::getProductDetailbyid');
-$routes->post('productdetail/save', 'ProductdetailController::create');
+$routes->post('productdetail/save/(:any)', 'ProductdetailController::createProductDetail/$1');
 $routes->post('productdetail/update/(:any)', 'ProductdetailController::update/$1');
 $routes->get('productdetail/delete', 'ProductdetailController::deletedata');
 
