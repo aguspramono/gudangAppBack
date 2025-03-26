@@ -199,3 +199,48 @@ $routes->get('stockoutdetail/detail', 'StockOutDetailController::getStockOutDeta
 $routes->post('stockoutdetail/save', 'StockOutDetailController::create');
 $routes->post('stockoutdetail/update/(:any)', 'StockOutDetailController::update/$1');
 $routes->get('stockoutdetail/delete', 'StockOutDetailController::deletedata');
+
+//stockPesanan
+$routes->get('stockpesanan', 'StockPesananController::getStockPesanan');
+$routes->get('stockpesanan/all', 'StockPesananController::allStockPesanan');
+$routes->get('stockpesanan/datacount', 'StockPesananController::index');
+$routes->get('stockpesanan/detail', 'StockPesananController::getStockPesananbyid');
+$routes->post('stockpesanan/save', 'StockPesananController::create');
+$routes->post('stockpesanan/update/(:any)', 'StockPesananController::update/$1');
+$routes->get('stockpesanan/delete', 'StockPesananController::deletedata');
+
+//stockPesananDetail
+$routes->get('stockpesanandetail', 'StockPesananDetailController::getStockPesananDetail');
+$routes->get('stockpesanandetail/all', 'StockPesananDetailController    ::allStockPesananDetail');
+$routes->get('stockpesanandetail/datacount', 'StockPesananDetailController::index');
+$routes->get('stockpesanandetail/detail', 'StockPesananDetailController::getStockPesananDetailbyid');
+$routes->post('stockpesanandetail/save', 'StockPesananDetailController::create');
+$routes->post('stockpesanandetail/update/(:any)', 'StockPesananDetailController::update/$1');
+$routes->get('stockpesanandetail/delete', 'StockPesananDetailController::deletedata');
+
+//stockPo
+$routes->get('stockpo', 'StockPoController::getStockPo');
+$routes->get('stockpo/all', 'StockPoController::allStockPo');
+$routes->get('stockpo/datacount', 'StockPoController::index');
+$routes->get('stockpo/detail', 'StockPoController::getStockPobyid');
+$routes->post('stockpo/save', 'StockPoController::create');
+$routes->post('stockpo/update/(:any)', 'StockPoController::update/$1');
+$routes->get('stockpo/delete', 'StockPoController::deletedata');
+
+//stockPoDetail
+$routes->get('stockpodetail', 'StockPoDetailController::getStockPoDetail');
+$routes->get('stockpodetail/all', 'StockPoDetailController::allStockPoDetail');
+$routes->get('stockpodetail/datacount', 'StockPoDetailController::index');
+$routes->get('stockpodetail/detail', 'StockPoDetailController::getStockPoDetailbyid');
+$routes->post('stockpodetail/save', 'StockPoDetailController::create');
+$routes->post('stockpodetail/update/(:any)', 'StockPoDetailController::update/$1');
+$routes->get('stockpodetail/delete', 'StockPoDetailController::deletedata');
+
+//stockPurch
+$routes->get('stockpurch', 'StockPurchController::getStockPurch');
+$routes->get('stockpurch/all', 'StockPurchController::allStockPurch');
+$routes->get('stockpurch/datacount', 'StockPurchController::index');
+$routes->get('stockpurch/detail', 'StockPurchController::getStockPurchbyid');
+$routes->post('stockpurch/save', 'StockPurchController::create');
+$routes->post('stockpurch/update/(:any)', 'StockPurchController::update/$1');
+$routes->get('stockpurch/delete', 'StockPurchController::deletedata');
