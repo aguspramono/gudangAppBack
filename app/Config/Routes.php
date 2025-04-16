@@ -244,3 +244,12 @@ $routes->get('stockpurch/detail', 'StockPurchController::getStockPurchbyid');
 $routes->post('stockpurch/save', 'StockPurchController::create');
 $routes->post('stockpurch/update/(:any)', 'StockPurchController::update/$1');
 $routes->get('stockpurch/delete', 'StockPurchController::deletedata');
+
+//stockPurchDetail
+$routes->get('stockpurchdetail', 'StockPurchController::getStockPurch');
+$routes->get('stockpurchdetail/all', 'StockPurchController::allStockPurch');
+$routes->get('stockpurchdetail/datacount', 'StockPurchController::index');
+$routes->get('stockpurchdetail/detail', 'StockPurchController::getStockPurchbyid');
+$routes->post('stockpurchdetail/save', 'StockPurchController::create');
+$routes->post('stockpurchdetail/update/(:any)', 'StockPurchController::update/$1');
+$routes->get('stockpurchdetail/delete', 'StockPurchController::deletedata');
