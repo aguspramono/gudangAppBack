@@ -62,6 +62,18 @@ class StockPurchDetailController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //get data by field No PO
+    public function getStockPurchDetailbynopo()
+    {
+        $wherelike = $this->request->getVar('id');
+        $data = [
+            'message' => 'success',
+            'dataStockPurchDetail' => $this->StockPurchDetail->where('md5(NoPo)', md5($wherelike))->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
 
     //get data with filter field InvNum, drGudang. Show limit
     public function getStockPurchDetail()

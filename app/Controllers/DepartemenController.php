@@ -66,6 +66,17 @@ class DepartemenController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //get data with filter field Keterangan. no limit
+    public function getAllDepartemen()
+    {
+        $data = [
+            'message' => 'success',
+            'datadepartemen' => $this->Departemen->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
     //Insert
     public function create()
     {

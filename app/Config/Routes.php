@@ -18,6 +18,7 @@ $routes->get('supplier/delete', 'SupplierController::deletedata');
 
 //departemen
 $routes->get('departemen', 'DepartemenController::getDepartemen');
+$routes->get('departemen/all', 'DepartemenController::getAllDepartemen');
 $routes->get('departemen/datacount', 'DepartemenController::index');
 $routes->get('departemen/detail', 'DepartemenController::getdepartemenbyid');
 $routes->post('departemen/save', 'DepartemenController::create');
@@ -221,11 +222,17 @@ $routes->get('stockpesanandetail/delete', 'StockPesananDetailController::deleted
 //stockPo
 $routes->get('stockpo', 'StockPoController::getStockPo');
 $routes->get('stockpo/all', 'StockPoController::allStockPo');
+$routes->get('stockpo/closingbulanan', 'StockPoController::closingBulananFun');
+$routes->get('stockpo/alldata', 'StockPoController::stockpodata');
 $routes->get('stockpo/datacount', 'StockPoController::index');
 $routes->get('stockpo/detail', 'StockPoController::getStockPobyid');
 $routes->post('stockpo/save', 'StockPoController::create');
 $routes->post('stockpo/update/(:any)', 'StockPoController::update/$1');
 $routes->get('stockpo/delete', 'StockPoController::deletedata');
+
+
+//closingbulanan
+$routes->get('closingbulanan', 'ClosingbulananController::index');
 
 //stockPoDetail
 $routes->get('stockpodetail', 'StockPoDetailController::getStockPoDetail');

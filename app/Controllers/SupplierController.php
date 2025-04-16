@@ -32,9 +32,16 @@ class SupplierController extends ResourceController
     public function index()
     {
         $wherelike = $this->request->getVar('like');
+        $optionlike = $this->request->getVar('option');
+        $likeket = "Nama";
+        if (empty($optionlike)) {
+            $likeket = "Nama";
+        } elseif ($optionlike == "Kota") {
+            $likeket = "Kota";
+        }
         $data = [
             'message' => 'success',
-            'countsupplier' => $this->Supplier->like('Nama', $wherelike)->countAllResults()
+            'countsupplier' => $this->Supplier->like($likeket, $wherelike)->countAllResults()
         ];
 
         return $this->respond($data, 200);
@@ -59,9 +66,16 @@ class SupplierController extends ResourceController
         $wherelike = $this->request->getVar('like');
         $pageprev = $this->request->getVar('pageprev');
         $page = $this->request->getVar('page');
+        $optionlike = $this->request->getVar('option');
+        $likeket = "Nama";
+        if (empty($optionlike)) {
+            $likeket = "Nama";
+        } elseif ($optionlike == "Kota") {
+            $likeket = "Kota";
+        }
         $data = [
             'message' => 'success',
-            'datasupplier' => $this->Supplier->like('Nama', $wherelike)->orLike('Person', $wherelike)->limit(intval($page), intval($pageprev))->findAll()
+            'datasupplier' => $this->Supplier->like($likeket, $wherelike)->limit(intval($page), intval($pageprev))->findAll()
         ];
 
         return $this->respond($data, 200);
