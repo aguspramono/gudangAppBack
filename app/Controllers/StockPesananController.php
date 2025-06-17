@@ -31,26 +31,106 @@ class StockPesananController extends ResourceController
     //get data like field Nama
     public function index()
     {
-        $wherelike = $this->request->getVar('like');
+        $wherelike  = $this->request->getVar('like');
+        $optionlike = $this->request->getVar('option');
+        $optionfilter   = $this->request->getVar('filter');
+        $tanggaldari    = $this->request->getVar('tanggaldari');
+        $tanggalsampai  = $this->request->getVar('tanggalsampai');
+        $bulan          = $this->request->getVar('bulan');
+        $tahun          = $this->request->getVar('tahun');
+        $likeket        = "stock_pesanan.NoPesanan";
+        if (empty($optionlike)) {
+            $likeket = "stock_pesanan.NoPesanan";
+        } elseif ($optionlike == "Nomor Pesanan") {
+            $likeket = "stock_pesanan.NoPesanan";
+        } elseif ($optionlike == "Departemen") {
+            $likeket = "stock_pesanandetail.Departemen";
+        }
+
+        $builder = $this->StockPesanan;
+        $builder->select('stock_pesanan.Tgl As tanggal,stock_pesanan.NoPesanan as NoPesanan,stock_pesanandetail.Departemen');
+        $builder->selectSum('stock_pesanandetail.Qtty');
+        $builder->join('stock_pesanandetail', 'stock_pesanan.NoPesanan=stock_pesanandetail.NoPesanan', 'LEFT');
+
+        if (!empty($optionfilter) && $optionfilter == "Tanggal") {
+            $builder->where('stock_pesanan.Tgl>=', $tanggaldari);
+            $builder->where('stock_pesanan.Tgl<=', $tanggalsampai);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Bulan") {
+            $builder->where('month(stock_pesanan.Tgl)', $bulan);
+            $builder->where('year(stock_pesanan.Tgl)', $tahun);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Tahun") {
+            $builder->where('year(stock_pesanan.Tgl)', $tahun);
+        }
+
+        $builder->like($likeket, $wherelike);
+        $builder->groupBy('stock_pesanan.Tgl,stock_pesanan.NoPesanan,stock_pesanandetail.Departemen');
+
+        $query = $builder->countAllResults();
+
         $data = [
             'message' => 'success',
-            'countStockPesanan' => $this->StockPesanan->like('NoPesanan', $wherelike)->countAllResults()
+            'countStockPesanan' => $query
         ];
-        return $this->respond($data, 200);;
-    }
-
-    //get all data StockLunasHutang
-    public function allStockPesanan()
-    {
-        $data = [
-            'message' => 'success',
-            'dataStockPesanan' => $this->StockPesanan->findAll()
-        ];
-
         return $this->respond($data, 200);
     }
 
-    //get data by field No ACC
+    //get data stock pesanan
+    public function allStockPesanan()
+    {
+        //Select Stock_Pesanan.Tgl As 'Tanggal',Stock_Pesanan.NoPesanan As 'No.Pesanan',Stock_PesananDetail.Departemen,Sum(Stock_PesananDetail.Qtty) As 'Jlh Qtty' From (Stock_Pesanan Left Join Stock_PesananDetail On Stock_Pesanan.NoPesanan=Stock_PesananDetail.NoPesanan) Where Stock_Pesanan.NoPesanan Like '{arg}' Group By Stock_Pesanan.Tgl,Stock_Pesanan.NoPesanan Order By Stock_Pesanan.Tgl Desc,Stock_Pesanan.NoPesanan Desc
+        $wherelike  = $this->request->getVar('like');
+        $pageprev   = $this->request->getVar('pageprev');
+        $page       = $this->request->getVar('page');
+        $optionlike = $this->request->getVar('option');
+        $optionfilter   = $this->request->getVar('filter');
+        $tanggaldari    = $this->request->getVar('tanggaldari');
+        $tanggalsampai  = $this->request->getVar('tanggalsampai');
+        $bulan          = $this->request->getVar('bulan');
+        $tahun          = $this->request->getVar('tahun');
+        $likeket        = "stock_pesanan.NoPesanan";
+        if (empty($optionlike)) {
+            $likeket = "stock_pesanan.NoPesanan";
+        } elseif ($optionlike == "Nomor Pesanan") {
+            $likeket = "stock_pesanan.NoPesanan";
+        } elseif ($optionlike == "Departemen") {
+            $likeket = "stock_pesanandetail.Departemen";
+        }
+
+        $builder = $this->StockPesanan;
+        $builder->select('DATE_FORMAT(stock_pesanan.Tgl,"%d-%m-%Y") as tanggal,stock_pesanan.NoPesanan as NoPesanan,stock_pesanandetail.Departemen');
+        $builder->selectSum('stock_pesanandetail.Qtty');
+        $builder->join('stock_pesanandetail', 'stock_pesanan.NoPesanan=stock_pesanandetail.NoPesanan', 'LEFT');
+
+        if (!empty($optionfilter) && $optionfilter == "Tanggal") {
+            $builder->where('stock_pesanan.Tgl>=', $tanggaldari);
+            $builder->where('stock_pesanan.Tgl<=', $tanggalsampai);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Bulan") {
+            $builder->where('month(stock_pesanan.Tgl)', $bulan);
+            $builder->where('year(stock_pesanan.Tgl)', $tahun);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Tahun") {
+            $builder->where('year(stock_pesanan.Tgl)', $tahun);
+        }
+
+        $builder->like($likeket, $wherelike);
+        $builder->groupBy('stock_pesanan.Tgl,stock_pesanan.NoPesanan,stock_pesanandetail.Departemen');
+        $builder->orderBy('stock_pesanan.Tgl DESC,stock_pesanan.NoPesanan DESC');
+
+        $builder->limit(intval($page), intval($pageprev));
+        $query = $builder->findAll();
+
+        $data = [
+            'message' => 'success',
+            'datastockpesanan' => $query
+        ];
+        return $this->respond($data, 200);
+    }
+
+
+    //get data by field No Pesanan
     public function getStockPesananbyid()
     {
         $wherelike = $this->request->getVar('id');
@@ -117,7 +197,7 @@ class StockPesananController extends ResourceController
     public function deletedata()
     {
         $id = $this->request->getVar('id');
-        $this->StockPesanan->where('md5(NoPesanan)', $id)->delete();
+        $this->StockPesanan->where('md5(NoPesanan)', md5($id))->delete();
         $response = ['message' => 'success'];
         return $this->respondDeleted($response);
     }

@@ -158,9 +158,10 @@ class StockPoController extends ResourceController
         $wherelike = $this->request->getVar('id');
         $data = [
             'message' => 'success',
-            'dataStockPo' => $this->StockPo->where('md5(NoPo)', md5($wherelike))->findAll()
+            'dataStockPo' => $this->StockPo->join('master_supplier', 'master_supplier.sNo_Acc=stock_po.sNo_Acc', 'LEFT')->where('md5(stock_po.NoPo)', md5($wherelike))->findAll(),
         ];
 
+        //
         return $this->respond($data, 200);
     }
 
@@ -231,7 +232,7 @@ class StockPoController extends ResourceController
     public function deletedata()
     {
         $id = $this->request->getVar('id');
-        $this->StockPo->where('md5(NoPo)', $id)->delete();
+        $this->StockPo->where('md5(NoPo)', md5($id))->delete();
         $response = ['message' => 'success'];
         return $this->respondDeleted($response);
     }

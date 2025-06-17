@@ -50,6 +50,26 @@ class StockRPurchController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    //cek rpurch by ivnum
+    public function rpurchdetailbyivnum()
+    {
+        $wherelike = $this->request->getVar('ivnum');
+        $builder = $this->StockRPurch;
+        $builder->select("stock_rpurch.Tgl,stock_rpurch.ReNum");
+        $builder->join("stock_rpurchdetail", "stock_rpurch.ReNum=stock_rpurchdetail.ReNum", "LEFT");
+        $builder->where("md5(stock_rpurchdetail.InvNum)", md5($wherelike));
+        $query = $builder->findAll();
+
+        $data = [
+            'message' => 'success',
+            'dataStockRPurch' => $query
+        ];
+
+        return $this->respond($data, 200);
+    }
+
+
+
     //get data by field No ACC
     public function getStockRPurchbyid()
     {

@@ -23,5 +23,8 @@ class StockPurch extends Model
     // protected $createdField  = 'created_at';
     // protected $updatedField  = 'updated_at';
 
-
+    public function cekPurch($noinv)
+    {
+        return $this->db->query("Select Tgl, Ifnull((select Gudang From stock_purchdetail Where InvNum=stock_purch.InvNum),'') Gudang From stock_purch Where md5(InvNum) = '" . md5($noinv) . "'");
+    }
 }

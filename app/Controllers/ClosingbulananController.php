@@ -35,24 +35,36 @@ class ClosingbulananController extends ResourceController
 
         if ($c1->getNumRows() > 0) {
             $c1 = $c1->getResult();
-            if ($tgl < $c1[0]->Tgl) {
-                $data = array(
-                    "message" => "Tanggal Harian yang aktif " . $Tgl . " proses dibatalkan",
+
+
+            if (date($tgl) < date($c1[0]->Tgl)) {
+                $data = array([
+                    "message" => "Tanggal Harian yang aktif " . date('d-m-Y', strtotime($tgl)) . " proses dibatalkan",
                     "status" => false
-                );
-                //MessageBox.Show("Tanggal Harian yang aktif ( " + Convert.ToDateTime(mySqlDataReader["Tgl"]).Date.ToString("dd-MM-yyy") + " ), Proses diBatalkan?", "Info", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                return $data;
+                ]);
             }
         }
 
+        if ($c2->getNumRows() > 0) {
+            $c2 = $c2->getResult();
+            if (date($tgl) < date($c2[0]->Tgl)) {
+                $data = array([
+                    "message" => "Periode Untuk Tanggal  " . date('d-m-Y', strtotime($tgl)) . " Sudah diTutup. Perubahan Data Tidak diIzinkan...!!!",
+                    "status" => false
+                ]);
+            } else {
+                $data = array([
+                    "message" => "success",
+                    "status" => true
+                ]);
+            }
+        } else {
+            $data = array([
+                "message" => "Periode Stock Belum diAktifkan, Hubungi Administrator...!!!",
+                "status" => false
+            ]);
+        }
 
-
-
-
-        $data = [
-            'message' => 'success',
-            'dataaktifday' => $this->Aktifday->findAll()
-        ];
 
         return $this->respond($data, 200);
     }

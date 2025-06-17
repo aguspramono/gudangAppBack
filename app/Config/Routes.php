@@ -26,12 +26,15 @@ $routes->post('departemen/update/(:any)', 'DepartemenController::update/$1');
 $routes->get('departemen/delete', 'DepartemenController::deletedata');
 
 //lokasi
+$routes->get('lokasi/all', 'LokasiController::getAllLokasi');
 $routes->get('lokasi', 'LokasiController::getLokasi');
 $routes->get('lokasi/datacount', 'LokasiController::index');
 $routes->get('lokasi/detail', 'LokasiController::getlokasibyid');
 $routes->post('lokasi/save', 'LokasiController::create');
 $routes->post('lokasi/update/(:any)', 'LokasiController::update/$1');
 $routes->get('lokasi/delete', 'LokasiController::deletedata');
+
+
 
 //satuan
 $routes->get('satuan', 'SatuanController::getSatuan');
@@ -77,6 +80,8 @@ $routes->post('product/save', 'ProductController::create');
 $routes->post('product/update/(:any)', 'ProductController::update/$1');
 $routes->get('product/delete', 'ProductController::deletedata');
 $routes->get('stockdistribusi', 'ProductController::stokdistribusi');
+$routes->post('product/updatebatch', 'ProductController::updatebatch');
+
 
 
 //reopenpriode
@@ -170,6 +175,7 @@ $routes->get('stocklunashutang', 'StockLunasHutangController::getStockLunasHutan
 $routes->get('stocklunashutang/all', 'StockLunasHutangController::allStockLunasHutang');
 $routes->get('stocklunashutang/datacount', 'StockLunasHutangController::index');
 $routes->get('stocklunashutang/detail', 'StockLunasHutangController::getStockLunasHutangbyid');
+$routes->get('stocklunashutang/detailbyivnum', 'StockLunasHutangController::getLunashutangbyivnum');
 $routes->post('stocklunashutang/save', 'StockLunasHutangController::create');
 $routes->post('stocklunashutang/update/(:any)', 'StockLunasHutangController::update/$1');
 $routes->get('stocklunashutang/delete', 'StockLunasHutangController::deletedata');
@@ -185,14 +191,15 @@ $routes->get('stocklunashutangdetail/delete', 'StockLunasHutangDetailController:
 
 //stockOut
 $routes->get('stockout', 'StockOutController::getStockOut');
-$routes->get('stockout/all', 'StockOutController::allStockOut');
+//$routes->get('stockout/all', 'StockOutController::allStockOut');
+$routes->get('stockout/all', 'StockOutController::stockoutdata');
 $routes->get('stockout/datacount', 'StockOutController::index');
 $routes->get('stockout/detail', 'StockOutController::getStockOutbyid');
 $routes->post('stockout/save', 'StockOutController::create');
 $routes->post('stockout/update/(:any)', 'StockOutController::update/$1');
 $routes->get('stockout/delete', 'StockOutController::deletedata');
 
-//stockOut
+//stockOut Detail
 $routes->get('stockoutdetail', 'StockOutDetailController::getStockOutDetail');
 $routes->get('stockoutdetail/all', 'StockOutDetailController::allStockOutDetail');
 $routes->get('stockoutdetail/datacount', 'StockOutDetailController::index');
@@ -212,12 +219,20 @@ $routes->get('stockpesanan/delete', 'StockPesananController::deletedata');
 
 //stockPesananDetail
 $routes->get('stockpesanandetail', 'StockPesananDetailController::getStockPesananDetail');
-$routes->get('stockpesanandetail/all', 'StockPesananDetailController    ::allStockPesananDetail');
+$routes->get('stockpesanandetail/all', 'StockPesananDetailController::allStockPesananDetail');
 $routes->get('stockpesanandetail/datacount', 'StockPesananDetailController::index');
 $routes->get('stockpesanandetail/detail', 'StockPesananDetailController::getStockPesananDetailbyid');
+$routes->get('stockpesanandetail/detailtglclosing', 'StockPesananDetailController::getDetailpesananbynopestglclosing');
+$routes->get('stockpesanandetail/detailnopesonly', 'StockPesananDetailController::getStockPesananDetailbynopesonly');
 $routes->post('stockpesanandetail/save', 'StockPesananDetailController::create');
+$routes->post('stockpesanandetail/savebatch', 'StockPesananDetailController::createbatch');
 $routes->post('stockpesanandetail/update/(:any)', 'StockPesananDetailController::update/$1');
 $routes->get('stockpesanandetail/delete', 'StockPesananDetailController::deletedata');
+
+
+
+
+
 
 //stockPo
 $routes->get('stockpo', 'StockPoController::getStockPo');
@@ -234,29 +249,46 @@ $routes->get('stockpo/delete', 'StockPoController::deletedata');
 //closingbulanan
 $routes->get('closingbulanan', 'ClosingbulananController::index');
 
+//global
+$routes->get('calculate', 'GlobalController::Calculate');
+
+
 //stockPoDetail
 $routes->get('stockpodetail', 'StockPoDetailController::getStockPoDetail');
 $routes->get('stockpodetail/all', 'StockPoDetailController::allStockPoDetail');
 $routes->get('stockpodetail/datacount', 'StockPoDetailController::index');
+$routes->get('stockpodetail/itempo', 'StockPoDetailController::dataitempobykodebarang');
 $routes->get('stockpodetail/detail', 'StockPoDetailController::getStockPoDetailbyid');
+$routes->get('stockpodetail/detailwithkodebarang', 'StockPoDetailController::getStockpodetailbyidandkodebarang');
+$routes->get('stockpodetail/detailpo', 'StockPoDetailController::getStockPoDetailbynopo');
+$routes->get('stockpodetail/detailponly', 'StockPoDetailController::getStockPoDetailbynoponly');
+$routes->get('stockpodetail/detailpopesanan', 'StockPoDetailController::getStockPoDetailbynopesanan');
 $routes->post('stockpodetail/save', 'StockPoDetailController::create');
+$routes->post('stockpodetail/savebatch', 'StockPoDetailController::createbatch');
 $routes->post('stockpodetail/update/(:any)', 'StockPoDetailController::update/$1');
 $routes->get('stockpodetail/delete', 'StockPoDetailController::deletedata');
+
 
 //stockPurch
 $routes->get('stockpurch', 'StockPurchController::getStockPurch');
 $routes->get('stockpurch/all', 'StockPurchController::allStockPurch');
 $routes->get('stockpurch/datacount', 'StockPurchController::index');
 $routes->get('stockpurch/detail', 'StockPurchController::getStockPurchbyid');
+$routes->get('stockpurch/detailbyivnum', 'StockRPurchController::rpurchdetailbyivnum');
+$routes->get('stockpurch/detailcekbyivnum', 'StockPurchController::cekPurchCont');
 $routes->post('stockpurch/save', 'StockPurchController::create');
 $routes->post('stockpurch/update/(:any)', 'StockPurchController::update/$1');
 $routes->get('stockpurch/delete', 'StockPurchController::deletedata');
 
+
+
 //stockPurchDetail
-$routes->get('stockpurchdetail', 'StockPurchController::getStockPurch');
-$routes->get('stockpurchdetail/all', 'StockPurchController::allStockPurch');
-$routes->get('stockpurchdetail/datacount', 'StockPurchController::index');
-$routes->get('stockpurchdetail/detail', 'StockPurchController::getStockPurchbyid');
-$routes->post('stockpurchdetail/save', 'StockPurchController::create');
-$routes->post('stockpurchdetail/update/(:any)', 'StockPurchController::update/$1');
-$routes->get('stockpurchdetail/delete', 'StockPurchController::deletedata');
+$routes->get('stockpurchdetail', 'StockPurchDetailController::getStockPurch');
+$routes->get('stockpurchdetail/all', 'StockPurchDetailController::allStockPurch');
+$routes->get('stockpurchdetail/datacount', 'StockPurchDetailController::index');
+$routes->get('stockpurchdetail/detail', 'StockPurchDetailController::getStockPurchDetailbyid');
+$routes->get('stockpurchdetail/detailpo', 'StockPurchDetailController::getStockPurchDetailbynopo');
+$routes->post('stockpurchdetail/save', 'StockPurchDetailController::create');
+$routes->post('stockpurchdetail/update/(:any)', 'StockPurchDetailController::update/$1');
+$routes->get('stockpurchdetail/delete', 'StockPurchDetailController::deletedata');
+$routes->post('stockpurchdetail/savebatch', 'StockPurchDetailController::createbatch');

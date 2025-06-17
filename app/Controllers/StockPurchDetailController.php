@@ -56,7 +56,7 @@ class StockPurchDetailController extends ResourceController
         $wherelike = $this->request->getVar('id');
         $data = [
             'message' => 'success',
-            'dataStockPurchDetail' => $this->StockPurchDetail->where('md5(InvNum)', md5($wherelike))->findAll()
+            'dataStockPurchDetail' => $this->StockPurchDetail->join('master_product', 'master_product.Kode=stock_purchdetail.Kode', 'LEFT')->where('md5(stock_purchdetail.InvNum)', md5($wherelike))->findAll()
         ];
 
         return $this->respond($data, 200);
@@ -110,6 +110,36 @@ class StockPurchDetailController extends ResourceController
         return $this->respondCreated($response);
     }
 
+    public function createbatch()
+    {
+        $dataval = $this->request->getPost('data');
+        $gudang = $this->request->getPost('gudang');
+        $invoice = $this->request->getPost('invoice');
+        $data = array();
+        $index = 0;
+
+        foreach ($dataval as $dataitem) {
+            array_push($data, array(
+                'InvNum'    => $invoice,
+                'Gudang'    => $gudang,
+                'Kode'      => $dataitem['Kode'],
+                'NoPo'      => $dataitem['NoPo'],
+                'Alokasi'   => $dataitem['Alokasi'],
+                'Qtty'      => $dataitem['Qtty'],
+                'Harga'     => $dataitem['Harga'],
+                'Disc'      => $dataitem['Disc'],
+            ));
+
+            $index++;
+        }
+
+        $this->StockPurchDetail->insertBatch($data);
+
+        $response = ['message' => 'success'];
+
+        return $this->respondCreated($response);
+    }
+
     //Update
     public function update($id = null)
     {
@@ -135,7 +165,7 @@ class StockPurchDetailController extends ResourceController
     public function deletedata()
     {
         $id = $this->request->getVar('id');
-        $this->StockPurchDetail->where('md5(InvNum)', $id)->delete();
+        $this->StockPurchDetail->where('md5(InvNum)', md5($id))->delete();
         $response = ['message' => 'success'];
         return $this->respondDeleted($response);
     }

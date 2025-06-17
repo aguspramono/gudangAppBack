@@ -66,6 +66,17 @@ class LokasiController extends ResourceController
         return $this->respond($data, 200);
     }
 
+
+    public function getAllLokasi()
+    {
+        $data = [
+            'message' => 'success',
+            'datalokasi' => $this->Lokasi->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
     //Insert
     public function create()
     {

@@ -7,6 +7,7 @@ require_once ROOTPATH . '/vendor/autoload.php';
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\StockOut;
+use App\Models\Globalfunc;
 
 
 class StockOutController extends ResourceController
@@ -17,6 +18,7 @@ class StockOutController extends ResourceController
         //header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
         header("Access-Control-Allow-Headers: X-Request-With");
         $this->StockOut = new StockOut();
+        $this->Globalfunc = new Globalfunc();
     }
 
     //protected $modelName = 'App\Models\Tokenpush';
@@ -32,11 +34,53 @@ class StockOutController extends ResourceController
     public function index()
     {
         $wherelike = $this->request->getVar('like');
+        $optionlike = $this->request->getVar('option');
+        $optionfilter = $this->request->getVar('filter');
+        $tanggaldari = $this->request->getVar('tanggaldari');
+        $tanggalsampai = $this->request->getVar('tanggalsampai');
+        $bulan = $this->request->getVar('bulan');
+        $tahun = $this->request->getVar('tahun');
+
+        $likeket = "stock_out.InvNum";
+        if (empty($optionlike)) {
+            $likeket = "stock_out.InvNum";
+        } elseif ($optionlike == "Nomor Invoice") {
+            $likeket = "stock_out.InvNum";
+        } elseif ($optionlike == "Departemen") {
+            $likeket = "stock_out.Departemen";
+        } elseif ($optionlike == "Dari Gudang") {
+            $likeket = "stock_outdetail.Gudang";
+        } elseif ($optionlike == "Ke Gudang") {
+            $likeket = "stock_out.keGudang";
+        }
+
+        $builder = $this->StockOut;
+        $builder->select("stock_out.Tgl,stock_out.InvNum,stock_out.Departemen,stock_outdetail.Gudang,stock_out.keGudang");
+        $builder->selectSum('stock_outdetail.Qtty');
+        $builder->join('stock_outDetail', 'stock_out.InvNum=stock_outdetail.InvNum', 'LEFT');
+
+        if (!empty($optionfilter) && $optionfilter == "Tanggal") {
+            $builder->where('stock_out.Tgl>=', $tanggaldari);
+            $builder->where('stock_out.Tgl<=', $tanggalsampai);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Bulan") {
+            $builder->where('month(stock_out.Tgl)', $bulan);
+            $builder->where('year(stock_out.Tgl)', $tahun);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Tahun") {
+            $builder->where('year(stock_out.Tgl)', $tahun);
+        }
+
+        $builder->like($likeket, $wherelike);
+        $builder->groupBy('stock_out.Tgl,stock_out.InvNum,stock_outdetail.Gudang');
+        $query = $builder->countAllResults();
+
         $data = [
             'message' => 'success',
-            'countStockOut' => $this->StockOut->like('InvNum', $wherelike)->countAllResults()
+            'countStockOut' => $query
         ];
-        return $this->respond($data, 200);;
+
+        return $this->respond($data, 200);
     }
 
     //get all data StockLunasHutang
@@ -45,6 +89,65 @@ class StockOutController extends ResourceController
         $data = [
             'message' => 'success',
             'dataStockOut' => $this->StockOut->findAll()
+        ];
+
+        return $this->respond($data, 200);
+    }
+
+
+    //get all data limit
+    public function stockoutdata()
+    {
+        $wherelike = $this->request->getVar('like');
+        $pageprev = $this->request->getVar('pageprev');
+        $page = $this->request->getVar('page');
+        $optionlike = $this->request->getVar('option');
+        $optionfilter = $this->request->getVar('filter');
+        $tanggaldari = $this->request->getVar('tanggaldari');
+        $tanggalsampai = $this->request->getVar('tanggalsampai');
+        $bulan = $this->request->getVar('bulan');
+        $tahun = $this->request->getVar('tahun');
+
+        $likeket = "stock_out.InvNum";
+        if (empty($optionlike)) {
+            $likeket = "stock_out.InvNum";
+        } elseif ($optionlike == "Nomor Invoice") {
+            $likeket = "stock_out.InvNum";
+        } elseif ($optionlike == "Departemen") {
+            $likeket = "stock_out.Departemen";
+        } elseif ($optionlike == "Dari Gudang") {
+            $likeket = "stock_outdetail.Gudang";
+        } elseif ($optionlike == "Ke Gudang") {
+            $likeket = "stock_out.keGudang";
+        }
+
+        //Select Stock_Out.Tgl As 'Tanggal',Stock_Out.InvNum As 'No.Invoice',Stock_Out.Departemen,Stock_OutDetail.Gudang drGudang,Sum(Stock_OutDetail.Qtty) As 'Jlh Qtty', stock_Out.keGudang From Stock_Out Left Join Stock_OutDetail On Stock_Out.InvNum=Stock_OutDetail.InvNum Where Stock_Out.InvNum Like '{0}' " + text + "Group By Stock_Out.Tgl,Stock_Out.InvNum,Stock_OutDetail.Gudang Order By Stock_Out.Tgl Desc,Stock_Out.InvNum Desc
+        $builder = $this->StockOut;
+        $builder->select("DATE_FORMAT(stock_out.Tgl,'%d-%m-%Y') as Tanggal,stock_out.InvNum,stock_out.Departemen,stock_outdetail.Gudang,stock_out.keGudang");
+        $builder->selectSum('stock_outdetail.Qtty');
+        $builder->join('stock_outDetail', 'stock_out.InvNum=stock_outdetail.InvNum', 'LEFT');
+
+        if (!empty($optionfilter) && $optionfilter == "Tanggal") {
+            $builder->where('stock_out.Tgl>=', $tanggaldari);
+            $builder->where('stock_out.Tgl<=', $tanggalsampai);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Bulan") {
+            $builder->where('month(stock_out.Tgl)', $bulan);
+            $builder->where('year(stock_out.Tgl)', $tahun);
+        }
+        if (!empty($optionfilter) && $optionfilter == "Tahun") {
+            $builder->where('year(stock_out.Tgl)', $tahun);
+        }
+
+        $builder->like($likeket, $wherelike);
+        $builder->groupBy('stock_out.Tgl,stock_out.InvNum,stock_outdetail.Gudang');
+        $builder->orderBy('stock_out.Tgl Desc,stock_out.InvNum Desc');
+        $builder->limit(intval($page), intval($pageprev));
+        $query = $builder->findAll();
+
+        $data = [
+            'message' => 'success',
+            'dataStockOut' => $query
         ];
 
         return $this->respond($data, 200);
@@ -81,6 +184,19 @@ class StockOutController extends ResourceController
     //Insert
     public function create()
     {
+
+        $this->db = \Config\Database::connect();
+        $query = "";
+        $invoice = $this->request->getPost('invoice');
+
+        $query = $this->db->query("Select i.Tgl, i.NoBukti From Stock_In i Left Join Stock_InDetail id On i.NoBukti=id.NoBukti Where id.InvNum = '" . $invoice . "'");
+
+        if ($query->getNumRows() > 0) {
+            $response = ['message' => 'No.Invoice Ini Sudah diLakukan Penerimaan Mutasi', 'status' => 'error'];
+        } else {
+        }
+
+
         $this->StockOut->insert([
             'InvNum'                 => esc($this->request->getVar('InvNum')),
             'Tgl'                    => esc($this->request->getVar('Tgl')),

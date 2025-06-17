@@ -143,6 +143,28 @@ class ProductController extends ResourceController
         return $this->respond($response, 200);
     }
 
+    public function updatebatch()
+    {
+        $dataval = $this->request->getPost('data');
+        //$kode = $this->request->getPost('kode');
+        $data = array();
+        $index = 0;
+
+        foreach ($dataval as $dataitem) {
+            array_push($data, array(
+                'hBeliEnd' => $dataitem['hBeliEnd'],
+                'Kode'    => $dataitem['Kode'],
+            ));
+
+            $index++;
+        }
+
+        $this->StockPurchDetail->updateBatch($data, 'Kode');;
+
+        $response = ['message' => 'success'];
+
+        return $this->respond($response, 200);
+    }
     //delete
     public function deletedata()
     {

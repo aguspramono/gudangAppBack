@@ -36,7 +36,25 @@ class StockLunasHutangController extends ResourceController
             'message' => 'success',
             'countStockLunasHutang' => $this->StockLunasHutang->like('NoBukti', $wherelike)->countAllResults()
         ];
-        return $this->respond($data, 200);;
+        return $this->respond($data, 200);
+    }
+
+    //get data by ivnum
+    public function getLunashutangbyivnum()
+    {
+        $wherelike = $this->request->getVar('ivnum');
+
+        $builder = $this->StockLunasHutang;
+        $builder->select("stock_lunashutang.Tgl,stock_lunashutang.NoBukti");
+        $builder->join("Stock_LunasHutangDetail", "stock_lunashutang.NoBukti=stock_lunashutangdetail.NoBukti", "LEFT");
+        $builder->where("stock_lunashutangdetail.InvNum", $wherelike);
+        $query = $builder->findAll();
+
+        $data = [
+            'message' => 'success',
+            'dataStockLunasHutang' => $query
+        ];
+        return $this->respond($data, 200);
     }
 
     //get all data StockLunasHutang
