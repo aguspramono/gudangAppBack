@@ -188,12 +188,27 @@ class StockOutController extends ResourceController
         $this->db = \Config\Database::connect();
         $query = "";
         $invoice = $this->request->getPost('invoice');
+        $dataval = $this->request->getPost('data');
+        $tanggal = $this->request->getPost('tanggal');
+        $gudang = $this->request->getPost('gudang');
 
         $query = $this->db->query("Select i.Tgl, i.NoBukti From Stock_In i Left Join Stock_InDetail id On i.NoBukti=id.NoBukti Where id.InvNum = '" . $invoice . "'");
 
         if ($query->getNumRows() > 0) {
             $response = ['message' => 'No.Invoice Ini Sudah diLakukan Penerimaan Mutasi', 'status' => 'error'];
         } else {
+
+            foreach ($dataval as $dataitem) {
+                $kodebarang = $dataitem['kodebarang'];
+                $qty = $dataitem['qtybarang'];
+
+                if (intval($qty) <= 0) {
+                    $response = ['message' => 'Ada Qty yang belum diisi, harap periksa kembali', 'status' => 'error'];
+                    return $response;
+                }
+
+                $qty2 = $this->Globalfunc->calculate($tanggal, $tanggal, $invoice, $kodebarang, $gudang, true);
+            }
         }
 
 
