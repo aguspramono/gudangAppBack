@@ -39,11 +39,14 @@ class Globalfunc extends Model
         $num2 = intval($query[0]->Periode);
         $Tgl = date('Y-m-d', strtotime($query[0]->Tgl)) . " 00:00:00";
 
+
+
         if (intval($query[0]->Aktif == 1)) {
             $query = $this->db->query("Select sAwal From master_productdetail Where Kode = '" . $cKode . "' And Gudang = '" . $cGudang . "'");
         } else {
             $query = $this->db->query("Select sAwal From history_productdetail Where Kode = '" . $cKode . "' And Gudang = '" . $cGudang . "' And Periode = " . $num2 . "");
         }
+
 
         if ($query->getNumRows() > 0) {
             $query = $query->getResult();
@@ -93,5 +96,45 @@ class Globalfunc extends Model
             $response = ['message' => 'success', 'status' => true];
         }
         return $response;
+    }
+
+    public function closeBulanan($tgl, $periode)
+    {
+        $c1 = $this->db->query("Select Tgl From master_aktifday");
+        $c2 = $this->db->query("Select Tgl From " . $periode . " Where Aktif=1");
+
+        if ($c1->getNumRows() > 0) {
+            $c1 = $c1->getResult();
+
+
+            if (date($tgl) < date($c1[0]->Tgl)) {
+                $data = array([
+                    "message" => "Tanggal Harian yang aktif " . date('d-m-Y', strtotime($tgl)) . " proses dibatalkan",
+                    "status" => false
+                ]);
+            }
+        }
+
+        if ($c2->getNumRows() > 0) {
+            $c2 = $c2->getResult();
+            if (date($tgl) < date($c2[0]->Tgl)) {
+                $data = array([
+                    "message" => "Periode Untuk Tanggal  " . date('d-m-Y', strtotime($tgl)) . " Sudah diTutup. Perubahan Data Tidak diIzinkan...!!!",
+                    "status" => false
+                ]);
+            } else {
+                $data = array([
+                    "message" => "success",
+                    "status" => true
+                ]);
+            }
+        } else {
+            $data = array([
+                "message" => "Periode Stock Belum diAktifkan, Hubungi Administrator...!!!",
+                "status" => false
+            ]);
+        }
+
+        return $data;
     }
 }

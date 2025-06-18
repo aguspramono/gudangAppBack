@@ -152,8 +152,8 @@ class ProductController extends ResourceController
 
         foreach ($dataval as $dataitem) {
             array_push($data, array(
-                'hBeliEnd' => $dataitem['hBeliEnd'],
-                'Kode'    => $dataitem['Kode'],
+                'hBeliEnd' => $dataitem['hargabeliend'],
+                'Kode'    => $dataitem['kodebarang'],
             ));
 
             $index++;

@@ -122,12 +122,12 @@ class StockPurchDetailController extends ResourceController
             array_push($data, array(
                 'InvNum'    => $invoice,
                 'Gudang'    => $gudang,
-                'Kode'      => $dataitem['Kode'],
-                'NoPo'      => $dataitem['NoPo'],
-                'Alokasi'   => $dataitem['Alokasi'],
-                'Qtty'      => $dataitem['Qtty'],
-                'Harga'     => $dataitem['Harga'],
-                'Disc'      => $dataitem['Disc'],
+                'Kode'      => $dataitem['kodebarang'],
+                'NoPo'      => $dataitem['nomorpesanan'],
+                'Alokasi'   => $dataitem['alokasi'],
+                'Qtty'      => $dataitem['qtybarang'],
+                'Harga'     => $dataitem['hargabeliend'],
+                'Disc'      => $dataitem['diskonbarang'],
             ));
 
             $index++;

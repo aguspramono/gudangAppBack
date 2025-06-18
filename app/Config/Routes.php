@@ -195,9 +195,11 @@ $routes->get('stockout', 'StockOutController::getStockOut');
 $routes->get('stockout/all', 'StockOutController::stockoutdata');
 $routes->get('stockout/datacount', 'StockOutController::index');
 $routes->get('stockout/detail', 'StockOutController::getStockOutbyid');
-$routes->post('stockout/save', 'StockOutController::create');
+$routes->post('stockout/save', 'StockOutController::savefunc');
 $routes->post('stockout/update/(:any)', 'StockOutController::update/$1');
 $routes->get('stockout/delete', 'StockOutController::deletedata');
+$routes->get('stockout/testajah', 'StockOutController::testajah');
+
 
 //stockOut Detail
 $routes->get('stockoutdetail', 'StockOutDetailController::getStockOutDetail');

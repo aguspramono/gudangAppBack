@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\StockOut;
 use App\Models\Globalfunc;
+use App\Models\StockOutDetail;
 
 
 class StockOutController extends ResourceController
@@ -19,6 +20,7 @@ class StockOutController extends ResourceController
         header("Access-Control-Allow-Headers: X-Request-With");
         $this->StockOut = new StockOut();
         $this->Globalfunc = new Globalfunc();
+        $this->StockOutDetail = new StockOutDetail();
     }
 
     //protected $modelName = 'App\Models\Tokenpush';
@@ -180,17 +182,33 @@ class StockOutController extends ResourceController
         return $this->respond($data, 200);
     }
 
+    public function testajah()
+    {
+        $response = $this->testajahlagi()->getBody();
+        $data = json_decode($response, true);
+        print_r($data['status']);
+    }
+
+
+    public function testajahlagi()
+    {
+        $response = ['message' => 'No.Invoice Ini Sudah diLakukan Penerimaan Mutasi', 'status' => 'error'];
+
+        return $this->respond($response, 200);
+    }
+
 
     //Insert
-    public function create()
+    public function savefunc()
     {
-
         $this->db = \Config\Database::connect();
         $query = "";
-        $invoice = $this->request->getPost('invoice');
-        $dataval = $this->request->getPost('data');
-        $tanggal = $this->request->getPost('tanggal');
-        $gudang = $this->request->getPost('gudang');
+        $invoice = esc($this->request->getPost('invoice'));
+        $dataval = esc($this->request->getPost('data'));
+        $tanggal = esc($this->request->getPost('tanggal'));
+        $gudang = esc($this->request->getPost('gudang'));
+        $data = array();
+        $index = 0;
 
         $query = $this->db->query("Select i.Tgl, i.NoBukti From Stock_In i Left Join Stock_InDetail id On i.NoBukti=id.NoBukti Where id.InvNum = '" . $invoice . "'");
 
@@ -204,28 +222,71 @@ class StockOutController extends ResourceController
 
                 if (intval($qty) <= 0) {
                     $response = ['message' => 'Ada Qty yang belum diisi, harap periksa kembali', 'status' => 'error'];
-                    return $response;
+                    return $this->respond($response, 200);
                 }
 
                 $qty2 = $this->Globalfunc->calculate($tanggal, $tanggal, $invoice, $kodebarang, $gudang, true);
+
+                // $response = ['message' => $qty2, 'status' => 'error'];
+                // return $this->respond($response, 200);
+
+
+                $cekstock = $this->Globalfunc->AlertMinusStock($kodebarang, "Inventory", $qty2, $qty);
+
+                if ($cekstock['status'] != 1) {
+                    $response = ['message' => $cekstock['message'] . "-" . $qty2, 'status' => 'error'];
+                    return $this->respond($response, 200);
+                }
+
+                if ($dataitem['alokasi'] == "") {
+                    $response = ['message' => 'Alokasi Barang Belum diIsi, Periksa Kembali', 'status' => 'error'];
+                    return $this->respond($response, 200);
+                }
+
+                array_push($data, array(
+                    'InvNum'    => $invoice,
+                    'Gudang'    => $gudang,
+                    'Kode'      => $dataitem['kodebarang'],
+                    'Qtty'      => $dataitem['qtybarang'],
+                    'Alokasi'   => $dataitem['alokasi'],
+                ));
+
+                $index++;
             }
+
+            $query = $this->db->query("Select Tgl From Stock_Out Where InvNum = '" . $invoice . "'");
+            if ($query->getNumRows() > 0) {
+                $result = $query->getResult();
+
+                $vTgl = $result[0]->Tgl;
+
+                $cekclosebulanan = $this->Globalfunc->closeBulanan($vTgl, "Stock_Periode");
+                if ($cekclosebulanan['status'] != 1) {
+                    $response = ['message' => $cekclosebulanan['message'], 'status' => 'error'];
+                    return $this->respond($response, 200);
+                }
+            }
+
+            $this->deletedata($invoice);
+
+            // $response = ['message' => $this->request->getPost('departemen'), 'status' => 'error'];
+            // return $this->respond($response, 200);
+
+            $this->StockOut->insert([
+                'InvNum'                 => $invoice,
+                'Tgl'                    => $tanggal,
+                'Departemen'             => esc($this->request->getPost('departemen')),
+                'Keterangan'             => esc($this->request->getPost('keterangan')),
+                'Status'                 => esc($this->request->getPost('status')),
+                'keGudang'               => esc($this->request->getPost('keGudang')),
+                'TglUbah'                => esc($this->request->getPost('TglUbah')),
+                'Username'               => esc($this->request->getPost('Username')),
+            ]);
+
+            $this->StockOutDetail->insertBatch($data);
+            $response = ['message' => 'success', 'status' => 'success'];
+            return $this->respond($response, 200);
         }
-
-
-        $this->StockOut->insert([
-            'InvNum'                 => esc($this->request->getVar('InvNum')),
-            'Tgl'                    => esc($this->request->getVar('Tgl')),
-            'Departemen'             => esc($this->request->getVar('Departemen')),
-            'Keterangan'             => esc($this->request->getVar('Keterangan')),
-            'Status'                 => esc($this->request->getVar('Status')),
-            'keGudang'               => esc($this->request->getVar('keGudang')),
-            'TglUbah'                => esc($this->request->getVar('TglUbah')),
-            'Username'               => esc($this->request->getVar('Username')),
-        ]);
-
-        $response = ['message' => 'success'];
-
-        return $this->respondCreated($response);
     }
 
     //Update
@@ -249,10 +310,10 @@ class StockOutController extends ResourceController
     }
 
     //delete
-    public function deletedata()
+    public function deletedata($id)
     {
-        $id = $this->request->getVar('id');
-        $this->StockOut->where('md5(InvNum)', $id)->delete();
+        $this->StockOut->where('md5(InvNum)', md5($id))->delete();
+        $this->StockOutDetail->where('md5(InvNum)', md5($id))->delete();
         $response = ['message' => 'success'];
         return $this->respondDeleted($response);
     }
